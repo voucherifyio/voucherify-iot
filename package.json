@@ -1,0 +1,21 @@
+{
+  "name": "voucherify-iot",
+  "version": "0.1.0",
+  "description": "Voucherify IoT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rspective/voucherify-iot.git"
+  },
+  "keywords": [
+    "voucherify",
+    "iot",
+    "voucher"
+  ],
+  "author": "rspective <contact@rspective.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rspective/voucherify-iot/issues"
+  },
+  "homepage": "https://github.com/rspective/voucherify-iot#readme"
+}
