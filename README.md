@@ -16,3 +16,5 @@ sudo dpkg -i libneardal0_<version>_armhf.deb libwiringpi2-<version>_armhf.deb
 neard-explorenfc_<version>_armhf.deb
 ```
 Reboot, then test read with```explorenfc-basic```
+- [nvm](https://github.com/creationix/nvm)
+```nvm i stable```
