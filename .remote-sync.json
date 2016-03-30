@@ -1,0 +1,15 @@
+{
+  "transport": "scp",
+  "hostname": "10.0.0.8",
+  "port": "22",
+  "username": "pi",
+  "password": "raspberry",
+  "target": "/home/pi/voucherify",
+  "uploadOnSave": true,
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**",
+    "node_modules/**"
+  ],
+  "deleteLocal": false
+}
