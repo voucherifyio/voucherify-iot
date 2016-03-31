@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/rspective/voucherify-iot#readme",
   "dependencies": {
-    "explorenfc": "0.0.1"
+    "explorenfc": "0.0.1",
+    "voucherify": "^1.7.0"
   }
 }
