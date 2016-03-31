@@ -1,6 +1,6 @@
 {
   "transport": "scp",
-  "hostname": "10.0.0.8",
+  "hostname": "192.168.1.187",
   "port": "22",
   "username": "pi",
   "password": "raspberry",
