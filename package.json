@@ -20,6 +20,8 @@
   "homepage": "https://github.com/rspective/voucherify-iot#readme",
   "dependencies": {
     "explorenfc": "0.0.1",
+    "express": "^4.13.4",
+    "express-ws": "^1.0.0",
     "voucherify": "^1.7.0"
   }
 }

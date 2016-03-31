@@ -7,6 +7,9 @@ const voucherifyClient = voucherify({
     clientSecretKey: "3266b9f8-e246-4f79-bdf0-833929b1380c"
 });
 
+const express = require('express');
+const app = express();
+
 const db = {
   '04C00DEAFC3880': 'piwo-RQ-vArGTfO'
 }
@@ -35,3 +38,11 @@ function startListening () {
 }
 
 startListening()
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});
