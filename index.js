@@ -2,6 +2,10 @@
 
 const nfc = require('explorenfc')
 
+const db = {
+  '04C00DEAFC3880': 'piwo-RQ-vArGTfO'
+}
+
 function startListening () {
   nfc.init('/usr/bin/explorenfc-basic')
   nfc.read((nfcEvent) => {
