@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/rspective/voucherify-iot/issues"
   },
-  "homepage": "https://github.com/rspective/voucherify-iot#readme"
+  "homepage": "https://github.com/rspective/voucherify-iot#readme",
+  "dependencies": {
+    "explorenfc": "0.0.1"
+  }
 }
