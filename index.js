@@ -16,7 +16,7 @@ const db = {
   '04C00DEAFC3880': 'piwo-RQ-vArGTfO'
 }
 
-function startListening () {
+function startListening (cb) {
   nfc.init('/usr/bin/explorenfc-basic')
   nfc.read((nfcEvent) => {
     if (nfcEvent) {
@@ -25,26 +25,35 @@ function startListening () {
 
       voucherifyClient.get(db[nfcEvent.id])
         .then(function (result) {
+            if (cb) {
+              cb(result)
+            }
             console.log(result);
         })
         .catch(function (error) {
-            console.error("Error: %s", error);
+          if (cb) {
+            cb(error)
+          }
+          console.error("Error: %s", error);
         });
 
     } else {
+      if (cb) {
+        cb('no nfc event')
+      }
       console.log('no NFC Event')
     }
 
-    startListening()
+    startListening(cb)
   })
 }
 
-startListening()
-
 app.ws('/echo', function(ws, req) {
-  ws.on('message', function(msg) {
-    ws.send(msg);
+  // ws.on('message', function(msg) {
+  startListening((validate) => {
+    ws.send(JSON.stringify(validate, null, 2))
   });
+  // });
 });
 
 app.listen(8080, function () {
