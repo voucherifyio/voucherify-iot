@@ -9,6 +9,7 @@ const voucherifyClient = voucherify({
 
 const express = require('express');
 const app = express();
+const expressWs = require('express-ws')(app);
 app.use(express.static('public'));
 
 const db = {
@@ -39,6 +40,12 @@ function startListening () {
 }
 
 startListening()
+
+app.ws('/echo', function(ws, req) {
+  ws.on('message', function(msg) {
+    ws.send(msg);
+  });
+});
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!');
