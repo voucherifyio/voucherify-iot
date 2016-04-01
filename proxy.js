@@ -7,15 +7,18 @@ app.use(bodyParser.json())
 require('express-ws')(app)
 
 const Redis = require('ioredis');
-const redis = new Redis();
+const REDIS_URL = process.env.REDISCLOUD_URL
+const PORT = process.env.PORT || 8080
+
+const redis = new Redis(REDIS_URL, {no_ready_check: true});
 
 // TOOD load vouchers via API
 redis.set('voucherify:campaign:0', 'test code');
 redis.set('voucherify:campaign:1', 'test code 1');
-redis.del('voucherify:nextId')
-redis.del('voucherify:device:test')
+// redis.del('voucherify:nextId')
+// redis.del('voucherify:device:test')
 
-app.listen(8080, function () {
+app.listen(PORT, function () {
   console.log('Example app listening on port 8080!')
 });
 
