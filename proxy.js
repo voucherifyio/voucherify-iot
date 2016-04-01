@@ -52,3 +52,14 @@ app.post('/register', function(req, res) {
     res.json({code: voucher})
   });
 });
+
+app.post('/gift', function(req, res) {
+  const device = req.body.device
+  const code = req.body.code
+
+  if (!device || !code) {
+    return res.status(400).send({error: 'Missing device ID and/or voucher code.'})
+  }
+
+  return res.status(200).send({})
+})
