@@ -18,12 +18,16 @@ $(document).ready(function () {
 
       if(voucher.code) {
         document.getElementById('beer').play();
-        $('#img').attr('src', 'beer.jpg');
-        $('#code-value').val(voucher.code);
+        $('.shape')
+          .shape('set next side', '.beer.side')
+          .shape('flip up');
+        $('#code-value').text(voucher.code);
       } else {
         document.getElementById('sad').play();
-        $('#img').attr('src', 'sad.png');
-        $('#code-value').val('');
+        $('.shape')
+          .shape('set next side', '.sad.side')
+          .shape('flip up');
+        $('#code-value').text('');
       }
     };
 
