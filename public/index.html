@@ -1,16 +1,49 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
+<head>
     <title>Voucherify IoT</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="semantic.min.css">
     <script type="text/javascript" src="jquery-1.12.2.min.js"></script>
     <script type="text/javascript" src="client.js"></script>
-  </head>
-  <body>
-    <audio id="beer" src="beer.wav" preload="auto"></audio>
-    <audio id="sad" src="sad.wav" preload="auto"></audio>
+    <script src="semantic.min.js"></script>
 
-    Connection: <strong id="status">?</strong>
-    <pre id="validate"></pre>
-  </body>
+</head>
+<body>
+<audio id="beer" src="beer.wav" preload="auto"></audio>
+<audio id="sad" src="sad.wav" preload="auto"></audio>
+
+<!--Connection: <strong id="status">?</strong>-->
+<pre id="validate"></pre>
+
+<div class="ui container">
+
+    <div class="ui image massice">
+        <img src="voiucherify.png">
+    </div>
+
+    <div class="ui segment">
+        <div class="ui two column grid">
+
+            <div class="column">
+
+                <div class="ui large image" id="img">
+                    <img src="question.png">
+                </div>
+            </div>
+            <div class="ui column" style="padding-top: 250px">
+                <div class="ui small teal statistic" id="code">
+                    <div class="value" id="code-value">
+                        <div class="label"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
 </html>

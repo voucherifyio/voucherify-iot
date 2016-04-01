@@ -18,8 +18,12 @@ $(document).ready(function () {
 
       if(voucher.code) {
         document.getElementById('beer').play();
+        $('#img').attr('src', 'beer.jpg');
+        $('#code-value').val(voucher.code);
       } else {
         document.getElementById('sad').play();
+        $('#img').attr('src', 'sad.png');
+        $('#code-value').val('');
       }
     };
 
