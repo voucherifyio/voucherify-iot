@@ -80,6 +80,8 @@ app.post('/gift', function(req, res) {
     return res.status(400).send({error: 'Missing device ID and/or voucher code.'})
   }
 
+  console.info(`Get free beer. Device - ${device}, Code - ${code}`)
+
   if (piWebSocket) {
     const respCallback = (data) => {
         const result = JSON.parse(data)
@@ -97,6 +99,7 @@ app.post('/gift', function(req, res) {
     }
 
     piWebSocket.on('message', respCallback)
+    console.info('Sending request to Pi')
     piWebSocket.send(JSON.stringify({code: code, device: device}, null, 2))
   } else {
     return res.status(500).send({error: 'Disabled link with Pi'})

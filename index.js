@@ -100,3 +100,8 @@ proxyWs.on('message', function(data, flags) {
     })
     .finally(() => res.status(200).send({}))
 })
+
+setInterval(() => {
+  console.info('Send heartbeat to proxy')
+  proxyWs.send(JSON.stringify({heartbeat: 'ok'}))
+}, 5000)
