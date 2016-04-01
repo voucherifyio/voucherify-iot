@@ -24,10 +24,10 @@ function startListening (cb) {
       console.log('id', nfcEvent.id)
       console.log('value', nfcEvent.value)
 
-      voucherifyClient.get(db[nfcEvent.id])
+      voucherifyClient.redeem(nfcEvent.value)
         .then(function (result) {
             if (cb) {
-              cb(result)
+              cb({code: nfcEvent.value})
             }
             console.log(result);
         })
