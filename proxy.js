@@ -81,7 +81,7 @@ app.post('/gift', function(req, res) {
   }
 
   if (piWebSocket) {
-    piWebSocket.send(JSON.stringify(validate, null, 2))
+    piWebSocket.send(JSON.stringify({code: code, device: device}, null, 2))
   } else {
     return res.status(500).send({error: 'Disabled link with Pi'})
   }
