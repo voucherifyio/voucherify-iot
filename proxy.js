@@ -69,3 +69,11 @@ app.post('/gift', function(req, res) {
 
   return res.status(200).send({})
 })
+
+app.get('/next-id', function(req, res) {
+  const device = req.body.device
+  const code = req.body.code
+
+  return redis.get('voucherify:nextId')
+    .then((nextId) => req.status(200).send(nextId))
+})

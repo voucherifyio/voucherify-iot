@@ -13,7 +13,8 @@ const expressWs = require('express-ws')(app);
 app.use(express.static('public'));
 
 const db = {
-  '04C00DEAFC3880': 'piwo-RQ-vArGTfO'
+  '04C00DEAFC3880': 'piwo-RQ-vArGTfO',
+  '14878F01': 'piwo-RQ-jIyqKG'
 }
 
 function startListening (cb) {
