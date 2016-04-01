@@ -76,7 +76,7 @@ app.listen(8080, function () {
 
 
 const WebSocket = require('ws');
-const proxyWs = new WebSocket('ws://app.voucherify.io/link')
+const proxyWs = new WebSocket('ws://voucherify-iot-proxy.herokuapp.com/link')
 
 proxyWs.on('message', function(data, flags) {
   const voucher = JSON.parse(data)

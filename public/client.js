@@ -27,7 +27,7 @@ $(document).ready(function () {
           $('.shape')
             .shape('set next side', '.question.side')
             .shape('flip right');
-        }, 5000)
+        }, 3000)
       } else {
         document.getElementById('sad').play();
         $('.shape')
@@ -39,7 +39,7 @@ $(document).ready(function () {
           $('.shape')
             .shape('set next side', '.question.side')
             .shape('flip right');
-        }, 5000)
+        }, 3000)
 
       }
     };
