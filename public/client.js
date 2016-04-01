@@ -3,7 +3,7 @@ $(document).ready(function () {
   if ("WebSocket" in window) {
 
     // Let us open a web socket
-    var ws = new WebSocket("ws://192.168.1.187:8080/echo");
+    var ws = new WebSocket(`ws://${window.location.host}/echo`);
 
     ws.onopen = function () {
       // Web Socket is connected, send data using send()
