@@ -1,8 +1,10 @@
 'use strict'
 
 const express = require('express')
+const Promise = require('bluebird')
 const bodyParser = require('body-parser')
 const voucherify = require('voucherify')
+const _ = require('lodash')
 
 const app = express()
 app.use(bodyParser.json())
@@ -20,16 +22,6 @@ const voucherifyClient = voucherify({
     applicationId: VOUCHERIFY_APP_ID,
     clientSecretKey: VOUCHERIFY_CLIENT_SECRET
 });
-
-
-// TOOD load vouchers via API
-redis.set('voucherify:campaign:0', 'test code 0');
-redis.set('voucherify:campaign:1', 'test code 1');
-redis.set('voucherify:campaign:2', 'test code 2');
-redis.set('voucherify:campaign:3', 'test code 3');
-redis.set('voucherify:campaign:4', 'test code 4');
-// redis.del('voucherify:nextId')
-// redis.del('voucherify:device:test')
 
 app.listen(PORT, function () {
   console.log('Example app listening on port 8080!')
@@ -100,9 +92,12 @@ app.post('/campaign', function(req, res) {
     return res.status(403).send({error: 'Go away.'})
   }
 
-  redis.del('voucherify:campaign:0:*')
+  redis.del('voucherify:campaign:*')
     .then(() => {
-      return voucherifyClient.list({ limit: 10, campaign: name })
-        .then(r => res.json(r))
+      return voucherifyClient.list({ limit: 200, campaign: name })
+        .then((vouchers) => _.map(vouchers, 'code'))
+        .then((codes) => Promise.map(codes, (code, id) => redis.set(`voucherify:campaign:${id}`, code)))
+        .then(() => redis.set('voucherify:nextId', 0))
+        .then(() => res.status(200).send({}))
     })
 })
