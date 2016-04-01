@@ -13,6 +13,8 @@ $(document).ready(function () {
     ws.onmessage = function (evt) {
       var received_msg = evt.data;
       $('#validate').text(evt.data);
+
+      document.getElementById('beer').play();
     };
 
     ws.onclose = function () {
