@@ -56,20 +56,7 @@ startListening((validate) => {
 app.get('/gift/:code', function(req, res) {
   const code = req.params.code
 
-  return voucherifyClient.redeem(code)
-    .then(function (result) {
-      console.info('Successful voucher redeem of voucher from proxy')
-      for (const ws of openWebSockets) {
-        ws.send(JSON.stringify({code: code}, null, 2))
-      }
-    })
-    .catch(function (error) {
-      console.info(`Failed voucher redeem of voucher from proxy. Code - ${code}`)
-      for (const ws of openWebSockets) {
-        ws.send(JSON.stringify({code: null}, null, 2))
-      }
-    })
-    .finally(() => res.status(200).send({}))
+
 })
 
 app.ws('/echo', function(ws, req) {
@@ -89,4 +76,23 @@ app.listen(8080, function () {
 
 
 const WebSocket = require('ws');
-const ws = new WebSocket('ws://app.voucherify.io/link');
+const proxyWs = new WebSocket('ws://app.voucherify.io/link')
+
+proxyWs.on('message', function(data, flags) {
+  const voucher = JSON.parse(data).code
+
+  return voucherifyClient.redeem(code)
+    .then(function (result) {
+      console.info('Successful voucher redeem of voucher from proxy')
+      for (const ws of openWebSockets) {
+        ws.send(JSON.stringify({code: code}, null, 2))
+      }
+    })
+    .catch(function (error) {
+      console.info(`Failed voucher redeem of voucher from proxy. Code - ${code}`)
+      for (const ws of openWebSockets) {
+        ws.send(JSON.stringify({code: null}, null, 2))
+      }
+    })
+    .finally(() => res.status(200).send({}))
+})

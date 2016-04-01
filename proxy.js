@@ -27,6 +27,17 @@ app.listen(PORT, function () {
   console.log(`Example app listening on port ${PORT}!`)
 });
 
+let piWebSocket = null
+app.ws('/link', function(ws, req) {
+  console.info(`Opened new connection with Pi`)
+  piWebSocket = ws
+
+  ws.on('close', () => {
+    console.info(`Closed connection with Pi`)
+    piWebSocket = null
+  })
+});
+
 app.post('/register', function(req, res) {
   const device = req.body.device
 
@@ -69,7 +80,11 @@ app.post('/gift', function(req, res) {
     return res.status(400).send({error: 'Missing device ID and/or voucher code.'})
   }
 
-  return res.status(200).send({})
+  if (piWebSocket) {
+    piWebSocket.send(JSON.stringify(validate, null, 2))
+  } else {
+    return res.status(500).send({error: 'Disabled link with Pi'})
+  }
 })
 
 app.get('/next-id', function(req, res) {
