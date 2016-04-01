@@ -49,12 +49,23 @@ function startListening (cb) {
   })
 }
 
-app.ws('/echo', function(ws, req) {
-  // ws.on('message', function(msg) {
-  startListening((validate) => {
+const openWebSockets = new Set()
+
+startListening((validate) => {
+  for (const ws of openWebSockets) {
     ws.send(JSON.stringify(validate, null, 2))
-  });
-  // });
+  }
+});
+
+app.ws('/echo', function(ws, req) {
+  const uid = Math.random()
+  console.info(`Opened new connection. UID - ${uid}`)
+  openWebSockets.add(ws)
+
+  ws.on('close', () => {
+    console.info(`Closed new connection. UID - ${uid}`)
+    openWebSockets.delete(ws)
+  })
 });
 
 app.listen(8080, function () {
