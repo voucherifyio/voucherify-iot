@@ -77,8 +77,9 @@ app.get('/next-id', function(req, res) {
   const code = req.body.code
 
   return redis.get('voucherify:nextId')
-    .then((nextId) => req.status(200).send(nextId))
+    .then((nextId) => res.status(200).send(nextId))
 })
+
 
 app.post('/campaign', function(req, res) {
   const name = req.body.name
@@ -92,7 +93,10 @@ app.post('/campaign', function(req, res) {
     return res.status(403).send({error: 'Go away.'})
   }
 
-  redis.del('voucherify:campaign:*')
+  console.info(`Fetch campaign vouchers. Campaign - ${name}`)
+
+  return redis.keys('voucherify:campaign:*')
+    .then((keys) => Promise.map(keys, (key) => redis.del(key)))
     .then(() => {
       return voucherifyClient.list({ limit: 200, campaign: name })
         .then((vouchers) => _.map(vouchers, 'code'))
@@ -100,4 +104,18 @@ app.post('/campaign', function(req, res) {
         .then(() => redis.set('voucherify:nextId', 0))
         .then(() => res.status(200).send({}))
     })
+})
+
+app.delete('/registered-devices', function(req, res) {
+  const password = req.body.password
+
+  if (password !== ADMIN_PWD) {
+    return res.status(403).send({error: 'Go away.'})
+  }
+
+  console.info('Delete registered devices')
+
+  return redis.keys('voucherify:device:*')
+    .then((keys) => Promise.map(keys, (key) => redis.del(key)))
+    .then((response) => res.status(200).send({deleted: response.length}))
 })
