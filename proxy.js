@@ -24,7 +24,7 @@ const voucherifyClient = voucherify({
 });
 
 app.listen(PORT, function () {
-  console.log('Example app listening on port 8080!')
+  console.log(`Example app listening on port ${PORT}!`)
 });
 
 app.post('/register', function(req, res) {
@@ -41,7 +41,7 @@ app.post('/register', function(req, res) {
         id = id || 0
         console.log(`Next ID - ${id}`)
 
-        return redis.set('voucherify:nextId', id + 1)
+        return redis.set('voucherify:nextId', +id + 1)
           .then((a) => redis.get(`voucherify:campaign:${id}`))
           .then((newVoucher) => {
             if (!newVoucher) {
