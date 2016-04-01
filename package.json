@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Voucherify IoT",
   "main": "index.js",
+  "scripts": {
+    "start": "node proxy.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rspective/voucherify-iot.git"
