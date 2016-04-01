@@ -84,9 +84,10 @@ app.post('/gift', function(req, res) {
 
   if (piWebSocket) {
     const respCallback = (data) => {
+        console.info('Response from Pi')
         const result = JSON.parse(data)
         if (data.device === device) {
-          console.info('Got response from Pi')
+          console.info('Got response from Pi for given device')
 
           if (data.status === 200) {
             res.status(200).send({})
