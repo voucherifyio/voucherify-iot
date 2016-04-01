@@ -85,20 +85,19 @@ proxyWs.on('message', function(data, flags) {
 
   return voucherifyClient.redeem(code)
     .then(function (result) {
-      console.info('Successful voucher redeem of voucher from proxy')
+      console.info(`Successful voucher redeem of voucher from proxy. Code - ${code}`)
+      proxyWs.send(JSON.stringify({device: device, status: 200}))
       for (const ws of openWebSockets) {
         ws.send(JSON.stringify({code: code}, null, 2))
-        proxyWs.send(JSON.stringify({device: device, status: 200}))
       }
     })
     .catch(function (error) {
       console.info(`Failed voucher redeem of voucher from proxy. Code - ${code}`)
+      proxyWs.send(JSON.stringify({device: device, status: 400}))
       for (const ws of openWebSockets) {
         ws.send(JSON.stringify({code: null}, null, 2))
-        proxyWs.send(JSON.stringify({device: device, status: 400}))
       }
     })
-    .finally(() => res.status(200).send({}))
 })
 
 setInterval(() => {
