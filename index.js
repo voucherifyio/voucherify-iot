@@ -12,6 +12,7 @@ const app = express();
 const expressWs = require('express-ws')(app);
 app.use(express.static('public'));
 
+
 function startListening (cb) {
   nfc.init('/usr/bin/explorenfc-basic')
   nfc.read((nfcEvent) => {
@@ -85,3 +86,7 @@ app.ws('/echo', function(ws, req) {
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!');
 });
+
+
+const WebSocket = require('ws');
+const ws = new WebSocket('ws://app.voucherify.io/link');
