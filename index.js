@@ -12,11 +12,6 @@ const app = express();
 const expressWs = require('express-ws')(app);
 app.use(express.static('public'));
 
-const db = {
-  '04C00DEAFC3880': 'piwo-RQ-vArGTfO',
-  '14878F01': 'piwo-RQ-jIyqKG'
-}
-
 function startListening (cb) {
   nfc.init('/usr/bin/explorenfc-basic')
   nfc.read((nfcEvent) => {
@@ -56,6 +51,25 @@ startListening((validate) => {
     ws.send(JSON.stringify(validate, null, 2))
   }
 });
+
+app.get('/gift/:code', function(req, res) {
+  const code = req.params.code
+
+  return voucherifyClient.redeem(code)
+    .then(function (result) {
+      console.info('Successful voucher redeem of voucher from proxy')
+      for (const ws of openWebSockets) {
+        ws.send(JSON.stringify({code: code}, null, 2))
+      }
+    })
+    .catch(function (error) {
+      console.info(`Failed voucher redeem of voucher from proxy. Code - ${code}`)
+      for (const ws of openWebSockets) {
+        ws.send(JSON.stringify({code: null}, null, 2))
+      }
+    })
+    .finally(() => res.status(200).send({}))
+})
 
 app.ws('/echo', function(ws, req) {
   const uid = Math.random()
