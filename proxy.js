@@ -13,8 +13,11 @@ const PORT = process.env.PORT || 8080
 const redis = new Redis(REDIS_URL, {no_ready_check: true});
 
 // TOOD load vouchers via API
-redis.set('voucherify:campaign:0', 'test code');
+redis.set('voucherify:campaign:0', 'test code 0');
 redis.set('voucherify:campaign:1', 'test code 1');
+redis.set('voucherify:campaign:2', 'test code 2');
+redis.set('voucherify:campaign:3', 'test code 3');
+redis.set('voucherify:campaign:4', 'test code 4');
 // redis.del('voucherify:nextId')
 // redis.del('voucherify:device:test')
 
