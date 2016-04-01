@@ -1,7 +1,9 @@
 'use strict'
 
 const express = require('express')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
+const voucherify = require('voucherify')
+
 const app = express()
 app.use(bodyParser.json())
 require('express-ws')(app)
@@ -9,8 +11,16 @@ require('express-ws')(app)
 const Redis = require('ioredis');
 const REDIS_URL = process.env.REDISCLOUD_URL
 const PORT = process.env.PORT || 8080
+const ADMIN_PWD = process.env.ADMIN_PWD
+const VOUCHERIFY_APP_ID = process.env.VOUCHERIFY_APP_ID
+const VOUCHERIFY_CLIENT_SECRET = process.env.VOUCHERIFY_CLIENT_SECRET
 
 const redis = new Redis(REDIS_URL, {no_ready_check: true});
+const voucherifyClient = voucherify({
+    applicationId: VOUCHERIFY_APP_ID,
+    clientSecretKey: VOUCHERIFY_CLIENT_SECRET
+});
+
 
 // TOOD load vouchers via API
 redis.set('voucherify:campaign:0', 'test code 0');
@@ -76,4 +86,23 @@ app.get('/next-id', function(req, res) {
 
   return redis.get('voucherify:nextId')
     .then((nextId) => req.status(200).send(nextId))
+})
+
+app.post('/campaign', function(req, res) {
+  const name = req.body.name
+  const password = req.body.password
+
+  if (!name) {
+    return res.status(400).send({error: 'Missing Campaign name.'})
+  }
+
+  if (password !== ADMIN_PWD) {
+    return res.status(403).send({error: 'Go away.'})
+  }
+
+  redis.del('voucherify:campaign:0:*')
+    .then(() => {
+      return voucherifyClient.list({ limit: 10, campaign: name })
+        .then(r => res.json(r))
+    })
 })

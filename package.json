@@ -28,6 +28,7 @@
     "express": "^4.13.4",
     "express-ws": "^1.0.0",
     "ioredis": "^1.15.1",
+    "lodash": "^4.7.0",
     "voucherify": "^1.7.0"
   }
 }
