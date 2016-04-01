@@ -81,6 +81,22 @@ app.post('/gift', function(req, res) {
   }
 
   if (piWebSocket) {
+    const respCallback = (data) => {
+        const result = JSON.parse(data)
+        if (data.device === device) {
+          console.info('Got response from Pi')
+
+          if (data.status === 200) {
+            res.status(200).send({})
+          } else {
+            res.status(400).send({error: 'Voucher already used'})
+          }
+
+          piWebSocket.removeListener('message', respCallback)
+        }
+    }
+
+    piWebSocket.on('message', respCallback)
     piWebSocket.send(JSON.stringify({code: code, device: device}, null, 2))
   } else {
     return res.status(500).send({error: 'Disabled link with Pi'})
