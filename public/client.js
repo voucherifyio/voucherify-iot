@@ -20,13 +20,13 @@ $(document).ready(function () {
         document.getElementById('beer').play();
         $('.shape')
           .shape('set next side', '.beer.side')
-          .shape('flip up');
+          .shape('flip right');
         $('#code-value').text(voucher.code);
       } else {
         document.getElementById('sad').play();
         $('.shape')
           .shape('set next side', '.sad.side')
-          .shape('flip up');
+          .shape('flip left');
         $('#code-value').text('');
       }
     };
