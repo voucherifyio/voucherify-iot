@@ -14,7 +14,13 @@ $(document).ready(function () {
       var received_msg = evt.data;
       $('#validate').text(evt.data);
 
-      document.getElementById('beer').play();
+      const voucher = JSON.parse(evt.data)
+
+      if(voucher.code) {
+        document.getElementById('beer').play();
+      } else {
+        document.getElementById('sad').play();
+      }
     };
 
     ws.onclose = function () {

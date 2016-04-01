@@ -33,14 +33,14 @@ function startListening (cb) {
         })
         .catch(function (error) {
           if (cb) {
-            cb(error)
+            cb({code: null})
           }
           console.error("Error: %s", error);
         });
 
     } else {
       if (cb) {
-        cb('no nfc event')
+        cb({code: null})
       }
       console.log('no NFC Event')
     }
